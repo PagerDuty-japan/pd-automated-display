@@ -22,13 +22,6 @@
   $("#brand").innerHTML = S.logo
     ? `<img src="${U.esc(S.logo)}" alt="${U.esc(S.eventName || "")}">`
     : `<span class="mark"></span><span class="word">${U.esc(S.eventName || "PagerDuty")}</span>`;
-  const clockEl = $("#clock");
-  const tickClock = () => {
-    const d = new Date();
-    clockEl.textContent = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
-  };
-  tickClock();
-  setInterval(tickClock, 5000);
 
   /* ---- 進捗バー ---- */
   progEl.innerHTML = slides.map(() => '<div class="seg"><i></i></div>').join("");
@@ -168,6 +161,22 @@
   function toggleFullscreen() {
     if (document.fullscreenElement) document.exitFullscreen();
     else document.documentElement.requestFullscreen?.().catch(() => {});
+  }
+
+  // 右下の全画面アイコン（全画面中はカーソルを動かしたときだけ出る）
+  const fsBtn = $("#fsBtn");
+  const renderFsBtn = () => {
+    const on = !!document.fullscreenElement;
+    document.body.classList.toggle("is-fs", on);
+    fsBtn.innerHTML = U.icon(on ? "shrink" : "expand");
+    fsBtn.title = fsBtn.ariaLabel = on ? "全画面を終了" : "全画面で表示";
+  };
+  if (document.fullscreenEnabled) {
+    fsBtn.addEventListener("click", (e) => { e.stopPropagation(); fsBtn.blur(); toggleFullscreen(); });
+    document.addEventListener("fullscreenchange", renderFsBtn);
+    renderFsBtn();
+  } else {
+    fsBtn.remove();
   }
 
   // カーソルを自動で隠す

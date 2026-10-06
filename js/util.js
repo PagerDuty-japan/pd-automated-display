@@ -62,6 +62,8 @@ window.U = (function () {
     pin: "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 7a3 3 0 1 1 0 6a3 3 0 1 1 0-6",
     globe: "M12 2a10 10 0 1 1 0 20a10 10 0 1 1 0-20 M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z",
     monitor: "M3 4h18v12H3z M8 20h8 M12 16v4",
+    expand: "M4 9V4h5 M15 4h5v5 M20 15v5h-5 M9 20H4v-5",
+    shrink: "M9 4v5H4 M15 4v5h5 M20 15h-5v5 M4 15h5v5",
   };
   const icon = (name, cls = "") =>
     `<svg class="i ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ICONS[name] || ICONS.check}"/></svg>`;

@@ -1,7 +1,8 @@
-/* noise：アラートの洪水 → 1件のインシデントに集約 */
+/* noise：アラートの洪水 → 少数のインシデントに集約 */
 SCENES.noise = function (root, d, ctx) {
   const { esc, header, refs, rand, pick, num, easeOut, progress } = U;
-  const total = d.totalAlerts || 1000;
+  const total = d.totalAlerts || 100;
+  const incidents = d.incidents || 1;
   const visible = d.visibleAlerts || 60;
   const collapse = (d.collapseAt || 7) * 1000;
   const spawnFrom = 900, spawnTo = collapse - 500;
@@ -74,12 +75,12 @@ SCENES.noise = function (root, d, ctx) {
   });
   ctx.at(collapse + 1100, () => { r.card.classList.add("show"); r.core.classList.add("burst"); });
 
-  const reduction = ((total - 1) / total) * 100;
+  const reduction = ((total - incidents) / total) * 100;
   ctx.loop((t) => {
     const f = easeOut(progress(t, spawnFrom, spawnTo - spawnFrom + 300));
     r.alerts.textContent = num(Math.round(total * Math.pow(f, 1.4)));
     const g = easeOut(progress(t, collapse + 900, 1400));
-    r.inc.textContent = t > collapse + 1000 ? "1" : "0";
+    r.inc.textContent = num(Math.round(incidents * g));
     r.pct.textContent = `${(reduction * g).toFixed(1)}%`;
     r.bar.style.transform = `scaleX(${(reduction / 100) * g})`;
   });

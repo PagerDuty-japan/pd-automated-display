@@ -14,8 +14,8 @@
 window.DECK = {
   settings: {
     eventName: "PagerDuty",
-    // 公式ロゴSVGを置いた場合はパスを指定（例: "assets/logo.svg"）。null ならテキストのワードマーク
-    logo: null,
+    // 左上のロゴ（暗背景用の白抜き SVG）。null にするとテキストのワードマーク
+    logo: "assets/logo.svg",
     defaultDuration: 15,
     captions: true,          // 字幕を表示
     captionsEnglish: true,   // 英語字幕を併記
@@ -44,10 +44,11 @@ window.DECK = {
       type: "noise",
       label: "ノイズ削減",
       duration: 16,
-      eyebrow: "01 — Event Intelligence",
-      title: "1,000のアラートも、\n*1件*のインシデントへ。",
+      eyebrow: "01 — Signal Intelligence",
+      title: "アラートの洪水を、\n*必要な通知*だけに。",
       lead: "関連するアラートを自動でグルーピング。\n本当に重要なシグナルだけが、担当者に届きます。",
-      totalAlerts: 1284,     // カウンターの最終値
+      totalAlerts: 100,      // カウンターの最終値
+      incidents: 9,          // まとめた後のインシデント数（削減率はここから計算）
       visibleAlerts: 48,     // 画面に降ってくるアラートチップの数
       collapseAt: 7.5,       // グルーピングが始まる秒
       alertSamples: [
@@ -69,14 +70,14 @@ window.DECK = {
         priority: "P1",
         title: "checkout-api 応答遅延",
         rows: [
-          ["まとめたアラート", "1,284件"],
+          ["まとめたアラート", "24件"],
           ["原因候補", "payments-db"],
         ],
       },
       captions: [
         { at: 0.8, ja: "障害が起きると、監視ツールから大量のアラートが押し寄せます。", en: "When things break, alerts flood in from every monitoring tool." },
         { at: 7.6, ja: "PagerDuty が関連するアラートを自動でひとつにまとめます。", en: "PagerDuty automatically groups related alerts together." },
-        { at: 11.6, ja: "担当者が見るべきは、この1件だけ。", en: "Responders see just the one incident that matters." },
+        { at: 11.6, ja: "担当者は、本当に対応すべきインシデントに集中できます。", en: "Responders focus only on the incidents that matter." },
       ],
     },
 
@@ -202,10 +203,10 @@ window.DECK = {
       eyebrow: "06 — Outcomes",
       title: "チームの時間を、\n*価値ある仕事*へ。",
       items: [
-        { value: 98, suffix: "%", label: "アラートノイズ削減", desc: "グルーピングと抑制で", ring: 0.98 },
-        { value: 50, suffix: "%", label: "MTTR 短縮",         desc: "自動化とAI支援で",     ring: 0.5 },
+        { value: 91, suffix: "%", label: "アラートノイズ削減", desc: "グルーピングと抑制で", ring: 0.91 },
+        { value: 77, suffix: "%", label: "問題解決までの時間を短縮", desc: "自動化とAI支援で", ring: 0.77 },
         { value: 24, suffix: "/7", label: "オンコール体制",     desc: "スケジュールと\nエスカレーション", ring: 1 },
-        { value: 700, suffix: "+", label: "インテグレーション", desc: "既存ツールとそのまま連携", ring: 0.82 },
+        { value: 750, suffix: "+", label: "インテグレーション", desc: "既存ツールとそのまま連携", ring: 0.85 },
       ],
       footnote: "※ 表示中の数値はデザイン用のサンプルです。展示前に公式データへ差し替えてください。",
       captions: [

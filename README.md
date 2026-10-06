@@ -30,6 +30,8 @@ python3 -m http.server 8000
 
 画面の右側クリックで次へ、左側クリックで前へ戻ります。マウスカーソルは 2 秒で自動的に隠れます。
 
+右下（進捗バーの下）の半透明のアイコンからも全画面にできます。全画面中はアイコンが隠れ、マウスを動かすと現れます。
+
 ### URL パラメータ
 
 | パラメータ | 例 | 説明 |
@@ -76,7 +78,7 @@ js/scenes/*.js        シーン（スライドのテンプレート）
 | --- | --- | --- |
 | `title` | オープニング。鼓動ラインと回転リング | `tags`, `ringLabel` |
 | `statement` | 汎用テキスト（お知らせ・セッション案内など） | `points`, `image`（SVG パス） |
-| `noise` | アラートの洪水が 1 件のインシデントに集約 | `totalAlerts`, `visibleAlerts`, `collapseAt`, `alertSamples`, `sources`, `hosts`, `incident` |
+| `noise` | アラートの洪水が少数のインシデントに集約 | `totalAlerts`, `incidents`, `visibleAlerts`, `collapseAt`, `alertSamples`, `sources`, `hosts`, `incident` |
 | `flow` | 検知→学習のライフサイクル | `steps[{icon,label,en,time,status,desc}]`, `clockLabel` |
 | `escalation` | オンコール通知とエスカレーション | `points`, `incident`, `tiers[{level,initials,name,role,channels,outcome}]`, `timeScale` |
 | `ai` | AI エージェントとのチャット | `points`, `channel`, `messages[{at,from,name,text,bullets,action}]` |
