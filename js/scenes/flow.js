@@ -32,10 +32,8 @@ SCENES.flow = function (root, d, ctx) {
       <div class="fl-node" data-i="${i}" style="left:${xs[i]}px; top:${y}px">
         <div class="disc">${icon(s.icon || "check")}<i class="pulse"></i></div>
         <div class="txt">
-          <div class="no mono">${String(i + 1).padStart(2, "0")} · ${esc(s.en || "")}</div>
           <div class="lb">${esc(s.label || "")}</div>
           <div class="ds">${rich(s.desc || "")}</div>
-          <div class="tm mono">${s.time && s.time !== "—" ? "T+" + esc(s.time) : esc(s.time || "")}</div>
         </div>
       </div>`).join("")}`;
 

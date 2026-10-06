@@ -7,20 +7,18 @@ SCENES.noise = function (root, d, ctx) {
   const spawnFrom = 900, spawnTo = collapse - 500;
   const inc = d.incident || {};
   const samples = d.alertSamples || [["CRIT", "Alert"]];
-  const sources = d.sources || ["monitor"];
-  const hosts = d.hosts || ["service"];
 
   root.innerHTML = `
     <div class="col-l">
       ${header(d)}
       <div class="nz-metrics rv" style="--d:1500ms">
-        <div class="m"><div class="k mono">ALERTS RECEIVED</div><div class="v mono" data-r="alerts">0</div></div>
+        <div class="m"><div class="k">受信アラート</div><div class="v mono" data-r="alerts">0</div></div>
         <div class="arrow">${U.icon("filter")}</div>
-        <div class="m hl"><div class="k mono">INCIDENTS</div><div class="v mono" data-r="inc">0</div></div>
+        <div class="m hl"><div class="k">インシデント</div><div class="v mono" data-r="inc">0</div></div>
       </div>
       <div class="nz-reduce rv" style="--d:1650ms">
         <div class="bar"><i data-r="bar"></i></div>
-        <div class="lbl mono"><span>NOISE REDUCTION</span><b data-r="pct">0.0%</b></div>
+        <div class="lbl"><span>ノイズ削減</span><b class="mono" data-r="pct">0.0%</b></div>
       </div>
     </div>
     <div class="nz-arena" data-r="arena">
@@ -28,11 +26,10 @@ SCENES.noise = function (root, d, ctx) {
       <div class="nz-card" data-r="card">
         <div class="top">
           <span class="prio">${esc(inc.priority || "P1")}</span>
-          <span class="id mono">INCIDENT ${esc(inc.id || "")}</span>
-          <span class="state mono">TRIGGERED</span>
+          <span class="state"><i></i>対応が必要なインシデント</span>
         </div>
         <div class="ttl">${esc(inc.title || "")}</div>
-        <dl>${(inc.rows || []).map(([k, v], i) => `<div style="--i:${i}"><dt class="mono">${esc(k)}</dt><dd class="mono">${esc(v)}</dd></div>`).join("")}</dl>
+        <dl>${(inc.rows || []).map(([k, v], i) => `<div style="--i:${i}"><dt>${esc(k)}</dt><dd class="mono">${esc(v)}</dd></div>`).join("")}</dl>
       </div>
     </div>`;
 
@@ -43,9 +40,8 @@ SCENES.noise = function (root, d, ctx) {
 
   function spawn(k) {
     const [sev, msg] = pick(samples);
-    const chip = U.el("div", `chip sev-${sev.toLowerCase()}`,
-      `<div class="l1 mono"><b>${esc(sev)}</b><span>${esc(pick(sources))}</span><span class="tm">${esc(pick(hosts))}</span></div><div class="l2">${esc(msg)}</div>`);
-    const x = rand(0, AW - 330), y = rand(0, AH - 70), rot = rand(-5, 5);
+    const chip = U.el("div", `chip sev-${sev.toLowerCase()}`, `<i></i><span>${esc(msg)}</span>`);
+    const x = rand(0, AW - 360), y = rand(0, AH - 60), rot = rand(-5, 5);
     chip.style.left = `${x}px`;
     chip.style.top = `${y}px`;
     chip.style.zIndex = k;

@@ -14,13 +14,12 @@ SCENES.dashboard = function (root, d, ctx) {
     </div>
     <div class="db-toast" data-r="toast">
       <span class="ic">${icon("bolt")}</span>
-      <div><div class="k mono">AUTOMATION</div><div class="t">${esc(inc.runbook || "")}</div><div class="pb"><i data-r="pb"></i></div></div>
+      <div><div class="t">${esc(inc.runbook || "")}</div><div class="pb"><i data-r="pb"></i></div></div>
     </div>
     <div class="db-grid">
       ${svcs.map((s, i) => `
         <div class="svc rv" style="--d:${600 + i * 70}ms">
-          <div class="row"><b class="mono">${esc(s.name)}</b><span class="st-badge mono">OK</span></div>
-          <div class="team">${esc(s.team || "")}</div>
+          <div class="row"><b class="mono">${esc(s.name)}</b><span class="st-badge"></span></div>
           <div class="val mono"><span class="n">0</span><small>${esc(s.unit || "")}</small></div>
           <svg class="spark" viewBox="0 0 ${SW} ${SH}" preserveAspectRatio="none">
             <defs><linearGradient id="sg${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="currentColor" stop-opacity=".35"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></linearGradient></defs>
@@ -51,9 +50,9 @@ SCENES.dashboard = function (root, d, ctx) {
     target.className = `svc rv ${cls}`;
     target.querySelector(".st-badge").textContent = chip;
   };
-  ctx.at(tInc, () => setState("bad", `${st.incident || "Incident"} — ${svcs[inc.service ?? 0]?.name || ""}`, "INCIDENT"));
-  ctx.at(tFix, () => { setState("fix", st.remediating || "Remediating", "AUTO-FIX"); r.toast.classList.add("show"); });
-  ctx.at(tOk, () => { setState("ok", st.resolved || "Resolved", "RESOLVED"); r.toast.classList.add("done"); });
+  ctx.at(tInc, () => setState("bad", st.incident || "Incident", "障害"));
+  ctx.at(tFix, () => { setState("fix", st.remediating || "Remediating", "修復中"); r.toast.classList.add("show"); });
+  ctx.at(tOk, () => { setState("ok", st.resolved || "Resolved", "復旧"); r.toast.classList.add("done"); });
   ctx.at(tOk + 2600, () => r.toast.classList.remove("show"));
 
   let acc = 0;

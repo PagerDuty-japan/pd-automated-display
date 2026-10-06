@@ -9,18 +9,12 @@ SCENES.ai = function (root, d, ctx) {
       <div class="bar">
         <span class="dots"><i></i><i></i><i></i></span>
         <span class="ch mono">${icon("hash")}${esc(d.channel || "incident")}</span>
-        <span class="badge mono">${icon("sparkle")}AI AGENT ACTIVE</span>
       </div>
       <div class="feed" data-r="feed"></div>
     </div>`;
 
   const r = refs(root);
   const feed = r.feed;
-  const now = new Date();
-  const stamp = (k) => {
-    const t = new Date(now.getTime() + k * 60000);
-    return `${String(t.getHours()).padStart(2, "0")}:${String(t.getMinutes()).padStart(2, "0")}`;
-  };
   const add = (node) => { feed.appendChild(node); requestAnimationFrame(() => node.classList.add("in")); return node; };
 
   (d.messages || []).forEach((m, idx) => {
@@ -32,7 +26,7 @@ SCENES.ai = function (root, d, ctx) {
     if (m.from === "user") {
       ctx.at(at, () => add(U.el("div", "msg user", `
         <div class="av">${esc(m.initials || "")}</div>
-        <div class="body"><div class="meta"><b>${esc(m.name || "")}</b><span class="mono">${stamp(idx)}</span></div>
+        <div class="body"><div class="meta"><b>${esc(m.name || "")}</b></div>
         <div class="text">${rich(m.text)}</div></div>`)));
       return;
     }
@@ -42,7 +36,7 @@ SCENES.ai = function (root, d, ctx) {
     ctx.at(at, () => {
       node = add(U.el("div", "msg agent typing", `
         <div class="av">${icon("sparkle")}</div>
-        <div class="body"><div class="meta"><b>${esc(m.name || "AI")}</b><span class="tag mono">AI</span><span class="mono">${stamp(idx)}</span></div>
+        <div class="body"><div class="meta"><b>${esc(m.name || "AI")}</b></div>
         <div class="text"><span class="typing"><i></i><i></i><i></i></span><span class="tx"></span></div></div>`));
       textEl = node.querySelector(".tx");
     });

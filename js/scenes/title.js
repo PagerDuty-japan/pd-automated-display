@@ -35,8 +35,8 @@ SCENES.title = function (root, d, ctx) {
       <g class="r r2"><circle r="270"/><circle class="sat" cx="270" r="7"/></g>
       <g class="r r3"><circle r="205"/><circle class="sat" cx="-205" r="5"/></g>
       <g class="r r4"><circle r="140"/></g>
-      <circle class="core" r="64"/>
-      <text class="ring-label" y="10">${esc(d.ringLabel || "")}</text>
+      <circle class="core" r="104"/>
+      <text class="ring-label" y="8">${esc(d.ringLabel || "")}</text>
     </svg>
 
     <div class="t-body">

@@ -5,7 +5,7 @@
   const W = 1920, H = 1080;
   const $ = (s) => document.querySelector(s);
   const stage = $("#stage"), slidesEl = $("#slides"), capEl = $("#captions"),
-        progEl = $("#progress"), nowEl = $("#now"), wipe = $("#wipe");
+        progEl = $("#progress"), wipe = $("#wipe");
   const params = new URLSearchParams(location.search);
   const slides = DECK.slides.filter((s) => !s.hidden);
   if (!slides.length) return;
@@ -22,7 +22,6 @@
   $("#brand").innerHTML = S.logo
     ? `<img src="${U.esc(S.logo)}" alt="${U.esc(S.eventName || "")}">`
     : `<span class="mark"></span><span class="word">${U.esc(S.eventName || "PagerDuty")}</span>`;
-  $("#booth").textContent = S.boothLabel || "";
   const clockEl = $("#clock");
   const tickClock = () => {
     const d = new Date();
@@ -118,7 +117,6 @@
 
     showCaption(null);
     segs.forEach((s, k) => (s.style.transform = `scaleX(${k < i ? 1 : 0})`));
-    nowEl.innerHTML = `<b>${String(i + 1).padStart(2, "0")}</b> / ${String(n).padStart(2, "0")}<span>${U.esc(slide.label || "")}</span>`;
     if (paused) setPaused(false);
   }
 

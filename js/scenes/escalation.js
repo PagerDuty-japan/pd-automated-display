@@ -11,7 +11,7 @@ SCENES.escalation = function (root, d, ctx) {
     <div class="es">
       <div class="es-inc rv" style="--d:700ms" data-r="inc">
         <span class="dot"></span>
-        <span class="state mono" data-r="state">TRIGGERED</span>
+        <span class="state" data-r="state">発生</span>
         <span class="prio">${esc(inc.priority || "P1")}</span>
         <span class="ttl">${esc(inc.title || "")}</span>
         <span class="timer mono" data-r="timer">00:00</span>
@@ -22,9 +22,9 @@ SCENES.escalation = function (root, d, ctx) {
           <div class="tier rv" style="--d:${900 + i * 150}ms">
             <div class="lv mono">${esc(t.level || "L" + (i + 1))}</div>
             <div class="av"><span>${esc(t.initials || "")}</span><i class="ring"></i><i class="ring r2"></i></div>
-            <div class="who"><b>${esc(t.name || "")}</b><small class="mono">${esc(t.role || "")}</small></div>
-            <div class="chs">${(t.channels || []).map((c) => `<span class="c" title="${esc(c)}">${icon((CH[c] || CH.push)[0])}<em class="mono">${(CH[c] || [, c])[1]}</em></span>`).join("")}</div>
-            <div class="st mono"><span>STANDBY</span></div>
+            <div class="who"><b>${esc(t.name || "")}</b><small>${esc(t.role || "")}</small></div>
+            <div class="chs">${(t.channels || []).map((c) => `<span class="c">${icon((CH[c] || CH.push)[0])}</span>`).join("")}</div>
+            <div class="st"><span>待機</span></div>
           </div>`).join("")}
       </div>
     </div>`;
@@ -45,18 +45,18 @@ SCENES.escalation = function (root, d, ctx) {
     if (ackAt != null || tier.outcome === "standby") return;
     const row = rows[i];
     const start = T;
-    ctx.at(start, () => { railTo(i); row.classList.add("notify"); setSt(row, "NOTIFYING"); });
+    ctx.at(start, () => { railTo(i); row.classList.add("notify"); setSt(row, "通知中"); });
     row.querySelectorAll(".c").forEach((c, k) => ctx.at(start + 350 + k * 420, () => c.classList.add("on")));
     if (tier.outcome === "ack") {
       ackAt = start + 2200;
       ctx.at(ackAt, () => {
-        row.classList.remove("notify"); row.classList.add("ack"); setSt(row, "ACKNOWLEDGED");
-        r.inc.classList.add("acked"); r.state.textContent = "ACKNOWLEDGED";
+        row.classList.remove("notify"); row.classList.add("ack"); setSt(row, "応答");
+        r.inc.classList.add("acked"); r.state.textContent = "対応中";
       });
       resolveAt = ackAt + 3000;
-      ctx.at(resolveAt, () => { r.inc.classList.add("resolved"); r.state.textContent = "RESOLVED"; row.classList.add("resolved"); });
+      ctx.at(resolveAt, () => { r.inc.classList.add("resolved"); r.state.textContent = "解決"; row.classList.add("resolved"); });
     } else {
-      ctx.at(start + 3000, () => { row.classList.remove("notify"); row.classList.add("timeout"); setSt(row, "NO RESPONSE"); });
+      ctx.at(start + 3000, () => { row.classList.remove("notify"); row.classList.add("timeout"); setSt(row, "未応答"); });
       T = start + 3500;
     }
   });

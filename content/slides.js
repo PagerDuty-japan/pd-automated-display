@@ -14,7 +14,6 @@
 window.DECK = {
   settings: {
     eventName: "PagerDuty",
-    boothLabel: "BOOTH  A-12",
     // 公式ロゴSVGを置いた場合はパスを指定（例: "assets/logo.svg"）。null ならテキストのワードマーク
     logo: null,
     defaultDuration: 15,
@@ -49,7 +48,7 @@ window.DECK = {
       title: "1,000のアラートも、\n*1件*のインシデントへ。",
       lead: "関連するアラートを自動でグルーピング。\n本当に重要なシグナルだけが、担当者に届きます。",
       totalAlerts: 1284,     // カウンターの最終値
-      visibleAlerts: 64,     // 画面に降ってくるアラートチップの数
+      visibleAlerts: 48,     // 画面に降ってくるアラートチップの数
       collapseAt: 7.5,       // グルーピングが始まる秒
       alertSamples: [
         ["CRIT", "p99 latency > 2.0s"],
@@ -65,17 +64,13 @@ window.DECK = {
         ["INFO", "TLS handshake errors"],
         ["WARN", "Error budget burn x14"],
       ],
-      sources: ["datadog", "prometheus", "cloudwatch", "new relic", "grafana", "sentry", "dynatrace"],
-      hosts: ["checkout-api", "payments-db", "edge-tokyo-2", "cart-svc", "auth-gw", "k8s-prod-03", "orders-worker"],
       incident: {
         id: "#4821",
         priority: "P1",
         title: "checkout-api 応答遅延",
         rows: [
-          ["GROUPED ALERTS", "1,284 → 1"],
-          ["SERVICE", "checkout-api"],
-          ["PROBABLE ORIGIN", "payments-db"],
-          ["RELATED CHANGE", "14:02 config deploy"],
+          ["まとめたアラート", "1,284件"],
+          ["原因候補", "payments-db"],
         ],
       },
       captions: [
@@ -92,7 +87,7 @@ window.DECK = {
       duration: 17,
       eyebrow: "02 — Incident Lifecycle",
       title: "検知から学習まで、\n*途切れない*対応フロー。",
-      clockLabel: "ELAPSED",
+      clockLabel: "経過時間",
       steps: [
         { icon: "radar",  label: "検知",       en: "Detect",   time: "00:00", status: "アラート受信",       desc: "あらゆる監視ツールの\nシグナルを集約" },
         { icon: "filter", label: "トリアージ", en: "Triage",   time: "00:45", status: "影響範囲を特定中",   desc: "優先度と影響範囲を\n自動で判定" },
@@ -170,27 +165,27 @@ window.DECK = {
       eyebrow: "05 — Automation",
       title: "検知した瞬間に、\n*自動で*手を打つ。",
       services: [
-        { name: "checkout-api", team: "Payments",  base: 120, unit: "ms" },
-        { name: "auth-gateway", team: "Identity",  base: 46,  unit: "ms" },
-        { name: "cart-service", team: "Commerce",  base: 88,  unit: "ms" },
-        { name: "search-api",   team: "Discovery", base: 64,  unit: "ms" },
-        { name: "payments-db",  team: "Payments",  base: 12,  unit: "ms" },
-        { name: "orders-worker", team: "Fulfillment", base: 210, unit: "ms" },
-        { name: "edge-tokyo",   team: "Platform",  base: 24,  unit: "ms" },
-        { name: "notify-svc",   team: "Messaging", base: 52,  unit: "ms" },
+        { name: "checkout-api", base: 120, unit: "ms" },
+        { name: "auth-gateway", base: 46,  unit: "ms" },
+        { name: "cart-service", base: 88,  unit: "ms" },
+        { name: "search-api", base: 64,  unit: "ms" },
+        { name: "payments-db", base: 12,  unit: "ms" },
+        { name: "orders-worker", base: 210, unit: "ms" },
+        { name: "edge-tokyo", base: 24,  unit: "ms" },
+        { name: "notify-svc", base: 52,  unit: "ms" },
       ],
       incident: {
         service: 0,          // services の何番目で障害を起こすか（0始まり）
         at: 4.0,             // 障害発生
         remediateAt: 7.5,    // 自動修復開始
         resolveAt: 11.5,     // 復旧
-        runbook: "Runbook: payments-db のコネクションプールを再起動",
+        runbook: "Runbook を自動実行中…",
       },
       status: {
         ok: "すべてのサービスが正常に稼働中",
         incident: "重大インシデント発生",
         remediating: "自動修復を実行中",
-        resolved: "復旧済み — 所要時間 3分42秒",
+        resolved: "復旧済み（3分42秒）",
       },
       captions: [
         { at: 1.0, ja: "サービスの健全性を、リアルタイムで可視化。", en: "See the health of every service in real time." },
