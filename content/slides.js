@@ -226,7 +226,6 @@ window.DECK = {
       items: [
         { icon: "pin",   key: "BOOTH",     value: "A-12" },
         { icon: "play",  key: "LIVE DEMO", value: "毎時 00分 / 30分" },
-        { icon: "globe", key: "WEB",       value: "pagerduty.com" },
       ],
       captions: [
         { at: 1.0, ja: "ブースでライブデモを実施中です。", en: "Live demos are running at our booth." },
