@@ -29,7 +29,7 @@ PagerDuty のイベント出展用・会場モニター向け自動再生スラ�
 
 - トークンは `css/base.css` の `:root`。アクセントは `--g2`、状態色は `--red`（triggered）/ `--amber`（acknowledged）/ `--g2`（resolved）で PagerDuty の状態表現に合わせる。
 - 見出しは Noto Sans JP 900、ラベル類は JetBrains Mono の大文字＋広めのトラッキング。
-- 実在の顧客名や未確認の数値を書かない。数値はサンプルである旨を明記する。
+- 実在の顧客名や未確認の数値を書かない。
 
 ## 確認
 

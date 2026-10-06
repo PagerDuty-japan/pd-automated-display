@@ -208,7 +208,6 @@ window.DECK = {
         { value: 24, suffix: "/7", label: "オンコール体制",     desc: "スケジュールと\nエスカレーション", ring: 1 },
         { value: 750, suffix: "+", label: "インテグレーション", desc: "主要ツールと柔軟に連携", ring: 0.85 },
       ],
-      footnote: "※ 表示中の数値はデザイン用のサンプルです。展示前に公式データへ差し替えてください。",
       captions: [
         { at: 1.0, ja: "ノイズ削減と復旧迅速化で、チームを疲弊から守る。", en: "Less noise. Faster recovery. Healthier on-call teams." },
         { at: 7.5, ja: "今お使いの監視・チャットツールとも、シームレスに連携。", en: "Connects seamlessly with the tools you already use." },
