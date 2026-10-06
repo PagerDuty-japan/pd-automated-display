@@ -205,8 +205,8 @@ window.DECK = {
       items: [
         { value: 91, suffix: "%", label: "アラートノイズ削減", desc: "自動集約と抑制で", ring: 0.91 },
         { value: 77, suffix: "%", label: "復旧時間を大幅短縮", desc: "自動化とAI支援で", ring: 0.77 },
-        { value: 24, suffix: "/7", label: "オンコール体制",     desc: "スケジュールと\nエスカレーション", ring: 1 },
-        { value: 750, suffix: "+", label: "インテグレーション", desc: "主要ツールと柔軟に連携", ring: 0.85 },
+        { value: 249, suffix: "%", label: "1年間のROI",       desc: "投資を大きく上回る効果", ring: 1 },
+        { value: 750, suffix: "+", label: "インテグレーション", desc: "主要ツールと柔軟に連携", ring: 1 },
       ],
       captions: [
         { at: 1.0, ja: "ノイズ削減と復旧迅速化で、チームを疲弊から守る。", en: "Less noise. Faster recovery. Healthier on-call teams." },
