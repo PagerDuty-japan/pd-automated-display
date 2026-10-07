@@ -235,7 +235,7 @@ window.DECK = {
       // リモート URL は初回だけダウンロードしてブラウザ内に保存（2周目以降は通信なし）
       // ローカルパス（例: "media/ltu.mp4"）も指定可能
       src: "https://www.pagerduty.co.jp/assets/images/ltu.mp4",
-      muted: true,           // 音を出すときは false（キオスク起動時の自動再生フラグが必要）
+      muted: false,          // true で無音。音ありの自動再生は画面を一度クリックするか、キオスク起動時の自動再生フラグが必要
       // duration を省略すると動画の長さだけ再生して次へ進みます
     },
 

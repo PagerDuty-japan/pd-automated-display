@@ -101,7 +101,7 @@ js/scenes/*.js        シーン（スライドのテンプレート）
 
 - `src`：動画の URL（mp4 などのファイルを直接指すもの）またはローカルパス（例：`media/movie.mp4`）。YouTube などの共有ページの URL は使えません
 - `duration` を省略すると動画の長さだけ再生して次へ進みます（指定するとその秒数で打ち切り）
-- `muted`：既定は `true`。音を出すときは `false` にし、Chrome を `--autoplay-policy=no-user-gesture-required` 付きで起動します（自動再生がブロックされたらミュートで再生）
+- `muted`：既定は `true`（無音）。音を出すときは `false` にします。ブラウザは操作前の音あり自動再生をブロックするので、起動後に画面を一度クリックするか、Chrome を `--autoplay-policy=no-user-gesture-required` 付きで起動します（ブロックされたらミュートで再生し、次のクリック／キー操作で音が出ます）
 - `fit`：`contain`（既定・黒帯あり）/ `cover`（画面いっぱいにトリミング）
 - 動画の再生中はロゴ・時計・進捗バーを隠します。`P` で一時停止できます
 
