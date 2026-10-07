@@ -36,9 +36,16 @@ SCENES.video = function (root, d, ctx) {
     release = r.release;
     v.src = r.url;
     v.play().catch(() => {
-      // 音あり自動再生がブロックされたらミュートで再生
+      // 音あり自動再生がブロックされたらミュートで再生し、最初のクリック／キー操作で音を戻す
+      console.warn("[video] 音ありの自動再生がブロックされたためミュートで再生します。画面をクリックすると音が出ます");
       v.muted = true;
       v.play().catch((e) => skip(e.message));
+      if (d.muted === false) {
+        const unmute = () => { if (!gone) v.muted = false; off(); };
+        const off = () => ["pointerdown", "keydown"].forEach((ev) => removeEventListener(ev, unmute, true));
+        ["pointerdown", "keydown"].forEach((ev) => addEventListener(ev, unmute, true));
+        ctx.onDestroy(off);
+      }
     });
   });
 };
