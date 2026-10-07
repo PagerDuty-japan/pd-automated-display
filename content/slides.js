@@ -94,12 +94,12 @@ window.DECK = {
         { icon: "filter", label: "トリアージ", en: "Triage",   time: "00:45", status: "影響範囲を特定中",   desc: "優先度と影響範囲を\n自動で判定" },
         { icon: "users",  label: "招集",       en: "Mobilize", time: "01:30", status: "対応チーム招集済み", desc: "適切な担当者を\n即座に自動招集" },
         { icon: "wrench", label: "解決",       en: "Resolve",  time: "08:20", status: "復旧済み",           desc: "自動化とRunbookで\n迅速に復旧" },
-        { icon: "book",   label: "学習",       en: "Learn",    time: "—",     status: "ポストモーテム作成", desc: "ポストモーテムを自動生成し\n再発を防止" },
+        { icon: "book",   label: "学習",       en: "Learn",    time: "—",     status: "ポストインシデントレビュー作成", desc: "ポストインシデント\nレビューを自動生成" },
       ],
       captions: [
         { at: 1.0, ja: "インシデント対応は、検知から始まり再発防止で完結します。", en: "Incident response starts with detection and ends with prevention." },
         { at: 6.5, ja: "各ステップを連携し、チームの対応を停滞させません。", en: "Every step connects seamlessly so your response never stalls." },
-        { at: 12.0, ja: "解決後は自動でポストモーテム作成。二度と同じ障害を起こさない組織へ。", en: "Automate postmortems so the same outage never happens twice." },
+        { at: 12.0, ja: "解決後は自動でポストインシデントレビュー作成。二度と同じ障害を起こさない組織へ。", en: "Automate post-incident reviews so the same outage never happens twice." },
       ],
     },
 
