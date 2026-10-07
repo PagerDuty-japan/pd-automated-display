@@ -220,12 +220,8 @@ window.DECK = {
       label: "ご案内",
       duration: 13,
       eyebrow: "Live Demo at Our Booth",
-      title: "実際の画面を、\nぜひ*ブースでご体験*ください。",
-      lead: "ブースにて実機ライブデモを随時開催中。\n貴社の運用課題に合わせた最適な活用法をご紹介します。",
-      items: [
-        { icon: "pin",   key: "BOOTH",     value: "A-12" },
-        { icon: "play",  key: "LIVE DEMO", value: "毎時 00分 / 30分" },
-      ],
+      title: "ぜひ*ブースでご体験*ください。",
+      lead: "ブースにて会場限定ミニセミナーやデモを実施中。\nぜひお立ち寄りください。",
       captions: [
         { at: 1.0, ja: "ブースにて実機ライブデモを随時開催中です。", en: "Live demos are running at our booth." },
         { at: 6.5, ja: "運用の課題やお悩みなど、お気軽にスタッフへご相談ください。", en: "Come talk to our team about your operational challenges!" },

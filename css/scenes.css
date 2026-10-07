@@ -421,6 +421,6 @@
 .type-video { background: #000; }
 .vd-wrap { position: absolute; inset: 0; background: #000; }
 .vd { width: 100%; height: 100%; display: block; background: #000; }
-/* 動画の再生中はロゴ・時計を隠す（進捗バーは残す） */
-.chrome-top { transition: opacity .6s; }
-#stage:has(.slide.type-video.is-in) .chrome-top { opacity: 0; }
+/* 動画の再生中はロゴ・時計・進捗バーを隠す */
+.chrome-top, .chrome-bottom { transition: opacity .6s; }
+#stage:has(.slide.type-video.is-in) :is(.chrome-top, .chrome-bottom) { opacity: 0; }
