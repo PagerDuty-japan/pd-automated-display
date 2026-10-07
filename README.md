@@ -83,10 +83,37 @@ js/scenes/*.js        シーン（スライドのテンプレート）
 | `dashboard` | サービス監視 → 自動修復 → 復旧 | `services[{name,team,base,unit}]`, `incident{service,at,remediateAt,resolveAt,runbook}`, `status` |
 | `stats` | リングゲージ＋カウントアップ | `items[{value,prefix,suffix,decimals,label,desc,ring}]`, `footnote` |
 | `cta` | クロージング／ブース案内 | `items[{icon,key,value}]` |
+| `video` | 動画を全画面で再生し、終わったら次へ | `src`, `muted`, `fit` |
 
 - `escalation` の `outcome`：`timeout`（未応答→次へ）/ `ack`（応答）/ `standby`（待機のまま）
 - `ai` の `from`：`system` / `user` / `agent`
 - 使えるアイコン名：`bell bolt users check search radar filter wrench book phone sms push mail sparkle clock shield layers play activity alert hash pin globe monitor`
+
+### 動画
+
+```js
+{ type: "video", label: "紹介動画", src: "https://example.com/movie.mp4" }
+```
+
+- `src`：動画の URL（mp4 などのファイルを直接指すもの）またはローカルパス（例：`media/movie.mp4`）。YouTube などの共有ページの URL は使えません
+- `duration` を省略すると動画の長さだけ再生して次へ進みます（指定するとその秒数で打ち切り）
+- `muted`：既定は `true`。音を出すときは `false` にし、Chrome を `--autoplay-policy=no-user-gesture-required` 付きで起動します（自動再生がブロックされたらミュートで再生）
+- `fit`：`contain`（既定・黒帯あり）/ `cover`（画面いっぱいにトリミング）
+- 動画の再生中はロゴと時計を隠します。`P` で一時停止できます
+
+**リモート動画のキャッシュ**：リモート URL の動画は、起動時に裏でまるごとダウンロードしてブラウザ内（Cache Storage）に保存します。2 周目以降やページの再読み込み後は通信せずに再生します。
+
+- `https://`（GitHub Pages など）または `http://localhost` で開いたときだけ有効です。`file://` で開くと毎回 URL から直接再生します
+- 動画の配信元が CORS を許可している必要があります。許可されていない場合は保存せず、URL から直接再生します（ブラウザの通常のキャッシュが効く範囲でしか節約できません）。Apache のレンタルサーバーなら、動画を置いたディレクトリの `.htaccess` に次を追加します
+
+  ```apache
+  <IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+  </IfModule>
+  ```
+
+- 保存できたかは、開発者ツールのコンソールに `[media] cached: ...` と出るかで確認できます
+- 同じ URL のまま動画を差し替えたときは、`?v=2` のように URL を変えると取り直します。スライドから外した動画は次回起動時に削除されます
 
 ### ロゴ
 

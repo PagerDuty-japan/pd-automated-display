@@ -36,20 +36,27 @@
 
   /* ---- シーンに渡すコンテキスト（スライド内の時計に同期したタイマー） ---- */
   function makeCtx(el, slide, dur) {
-    const tasks = [], loops = [];
-    return {
+    const tasks = [], loops = [], cleanups = [];
+    const ctx = {
       el, slide, dur, t: 0,
       /** スライド開始から ms ミリ秒後に fn を実行（一時停止に追従） */
       at(msec, fn) { tasks.push({ msec, fn, done: false }); },
       /** 毎フレーム fn(t, dt) を実行 */
       loop(fn) { loops.push(fn); },
+      /** スライドの長さを変更（動画の長さに合わせるときなど。Infinity で自動では進まない） */
+      setDuration(msec) { this.dur = msec; },
+      /** 次のスライドへ進む（このスライドが表示中のときだけ） */
+      next() { if (cur && cur.ctx === ctx) go(idx + 1, 1); },
+      /** スライドが片付けられるときに fn を実行 */
+      onDestroy(fn) { cleanups.push(fn); },
       _tick(t, dt) {
         this.t = t;
         for (const k of tasks) if (!k.done && t >= k.msec) { k.done = true; safe(k.fn, t); }
         for (const f of loops) safe(f, t, dt);
       },
-      _destroy() { tasks.length = 0; loops.length = 0; },
+      _destroy() { tasks.length = 0; loops.length = 0; cleanups.splice(0).forEach((f) => safe(f)); },
     };
+    return ctx;
   }
   const safe = (fn, ...a) => { try { fn(...a); } catch (e) { console.error(e); } };
 
@@ -94,6 +101,8 @@
 
     if (cur) {
       const old = cur;
+      old.el.querySelectorAll("video").forEach((v) => v.pause());
+      pausedAnims = pausedAnims.filter((a) => !(a instanceof HTMLMediaElement));
       old.el.classList.remove("is-in");
       old.el.classList.add("is-out");
       setTimeout(() => { old.ctx._destroy(); old.el.remove(); }, 1000);
@@ -131,10 +140,16 @@
       let ci = -1;
       cur.caps.forEach((c, k) => { if (cur.t >= c.start && cur.t < c.end) ci = k; });
       if (ci !== cur.capIdx) { cur.capIdx = ci; showCaption(cur.caps[ci]); }
-      segs[idx].style.transform = `scaleX(${U.clamp(cur.t / cur.dur, 0, 1)})`;
-      if (cur.t >= cur.dur) go(idx + 1, 1);
+      const dur = cur.ctx.dur;
+      segs[idx].style.transform = `scaleX(${U.clamp(cur.slide.type === "video" && cur.slide.duration == null ? videoProgress() : cur.t / dur, 0, 1)})`;
+      if (cur.t >= dur) go(idx + 1, 1);
     }
     requestAnimationFrame(frame);
+  }
+
+  function videoProgress() {
+    const v = cur.el.querySelector("video");
+    return v && v.duration ? v.currentTime / v.duration : 0;
   }
 
   /* ---- 一時停止（CSS/WAAPI アニメーションも止める） ---- */
@@ -143,9 +158,10 @@
     stage.classList.toggle("is-paused", p);
     if (p) {
       pausedAnims = document.getAnimations().filter((a) => a.playState === "running");
+      pausedAnims.push(...[...slidesEl.querySelectorAll("video")].filter((v) => !v.paused));
       pausedAnims.forEach((a) => a.pause());
     } else {
-      pausedAnims.forEach((a) => { try { a.play(); } catch (_) {} });
+      pausedAnims.forEach((a) => { try { a.play()?.catch?.(() => {}); } catch (_) {} });
       pausedAnims = [];
     }
   }
@@ -186,7 +202,12 @@
 
   if (params.get("chrome") === "0") stage.classList.add("no-chrome");
 
-  const start = () => { go(idx, 0); requestAnimationFrame(frame); };
+  const start = () => {
+    go(idx, 0);
+    requestAnimationFrame(frame);
+    // 動画は裏で先に取得してブラウザ内に保存しておく（2周目以降は通信なし）
+    window.MEDIA?.preload(slides.filter((s) => s.type === "video" && s.src).map((s) => new URL(s.src, location.href).href));
+  };
   // Webフォントの読み込みを少し待ってから開始（オフラインでも1.5秒で開始）
   Promise.race([document.fonts?.ready || Promise.resolve(), new Promise((r) => setTimeout(r, 1500))]).then(start);
 })();
