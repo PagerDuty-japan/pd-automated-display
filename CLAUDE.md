@@ -18,7 +18,9 @@ PagerDuty のイベント出展用・会場モニター向け自動再生スラ�
 - `data`：`content/slides.js` のスライドオブジェクト
 - `ctx.at(ms, fn)`：スライド開始から ms 後に実行（一時停止に追従）。`setTimeout` は使わない
 - `ctx.loop((t, dt) => {})`：毎フレーム実行
-- `ctx.dur`：スライドの長さ（ms）
+- `ctx.dur`：スライドの長さ（ms）。`ctx.setDuration(ms)` で変更（`Infinity` で自動では進まない）
+- `ctx.next()`：次のスライドへ進む／`ctx.onDestroy(fn)`：スライド破棄時の後片付け
+- リモートのメディアは `MEDIA.resolve(src)`（`js/media.js`）経由で読み込むとブラウザ内にキャッシュされる
 - 出現アニメーションは `.rv` クラス＋`style="--d:300ms"`、見出しは `U.header(data)` / `U.splitChars()`
 
 ## デザイン
