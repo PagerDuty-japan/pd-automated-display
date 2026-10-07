@@ -7,7 +7,7 @@
   const stage = $("#stage"), slidesEl = $("#slides"), capEl = $("#captions"),
         progEl = $("#progress"), wipe = $("#wipe");
   const params = new URLSearchParams(location.search);
-  const slides = DECK.slides.filter((s) => !s.hidden);
+  let slides = DECK.slides.filter((s) => !s.hidden);
   if (!slides.length) return;
 
   /* ---- 画面サイズに合わせて 1920x1080 のステージを拡縮 ---- */
@@ -24,8 +24,12 @@
     : `<span class="mark"></span><span class="word">${U.esc(S.eventName || "PagerDuty")}</span>`;
 
   /* ---- 進捗バー ---- */
-  progEl.innerHTML = slides.map(() => '<div class="seg"><i></i></div>').join("");
-  const segs = [...progEl.querySelectorAll(".seg i")];
+  let segs;
+  function buildProgress() {
+    progEl.innerHTML = slides.map(() => '<div class="seg"><i></i></div>').join("");
+    segs = [...progEl.querySelectorAll(".seg i")];
+  }
+  buildProgress();
 
   /* ---- シーンに渡すコンテキスト（スライド内の時計に同期したタイマー） ---- */
   function makeCtx(el, slide, dur) {
@@ -71,13 +75,30 @@
 
   /* ---- スライド切替 ---- */
   let idx = U.clamp((parseInt(params.get("slide"), 10) || 1) - 1, 0, slides.length - 1);
-  let cur = null, paused = false, pausedAnims = [];
+  let cur = null, paused = false, pausedAnims = [], loading = false;
+
+  // コンテンツ（content/slides.js）だけを読み直す。ページを再読み込みすると全画面が解除されるため
+  function reloadContent(done) {
+    loading = true;
+    const s = document.createElement("script");
+    s.src = "content/slides.js?t=" + Date.now();
+    s.onload = s.onerror = () => {
+      s.remove();
+      loading = false;
+      const next = ((window.DECK || {}).slides || []).filter((x) => !x.hidden);
+      if (next.length) { slides = next; buildProgress(); }
+      done();
+    };
+    document.head.appendChild(s);
+  }
 
   function go(i, dir = 1) {
+    if (loading) return;
     const n = slides.length;
     const wrapped = cur && dir > 0 && idx === n - 1;
     if (wrapped && S.reloadOnLoop && /^https?:/.test(location.protocol) && params.get("reload") !== "0") {
-      // 1周したら最新のコンテンツを読み直す
+      // 1周したら最新のコンテンツを読み直す（全画面中はページを再読み込みしない）
+      if (document.fullscreenElement) { reloadContent(() => go(0, 0)); return; }
       const p = new URLSearchParams(location.search);
       p.delete("slide");
       location.search = p.toString() || "?";
