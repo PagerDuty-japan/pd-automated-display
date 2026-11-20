@@ -20,6 +20,7 @@ window.DECK = {
     captions: true,          // 字幕を表示
     captionsEnglish: true,   // 英語字幕を併記
     reloadOnLoop: true,      // 1周したらページを再読み込み（http(s) 配信時のみ）＝更新内容を自動反映
+    videoSkipUntilCached: true, // リモートの動画はブラウザ内への保存が終わるまで飛ばす（細い回線で再生が止まるのを防ぐ）
   },
 
   slides: [
