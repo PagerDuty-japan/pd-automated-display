@@ -102,7 +102,14 @@
   function go(i, dir = 1) {
     if (loading) return;
     const n = slides.length;
-    const wrapped = cur && dir > 0 && idx === n - 1;
+    // 裏でダウンロード中の動画は飛ばす（細い回線でストリーミングと取り合って止まるのを防ぐ。保存が終わった周から流れる）
+    if (cur && dir > 0 && S.videoSkipUntilCached !== false) {
+      while (i < n && slides[i].type === "video" && slides[i].src && window.MEDIA?.state(slides[i].src) === "pending") {
+        console.info("[video] ダウンロード中のためスキップ:", slides[i].src);
+        i++;
+      }
+    }
+    const wrapped = cur && dir > 0 && i >= n;
     if (wrapped && S.reloadOnLoop && /^https?:/.test(location.protocol) && params.get("reload") !== "0") {
       // 1周したら最新のコンテンツを読み直す（全画面中はページを再読み込みしない）
       if (document.fullscreenElement) { reloadContent(() => go(0, 0)); return; }
